@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Гитара - Схема нот</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #1e0f2a; /* Темно-фиолетовый фон */
+            margin: 0;
+            padding: 10px;
+            color: #d195ff; /* Основной цвет текста */
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #d195ff; /* Фиолетовый цвет текста */
+            font-size: 2em; /* Уменьшим размер заголовка для мобильных */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Тень для текста */
+        }
+
+        .controls {
+            margin-bottom: 20px;
+            color: #bd71ff; /* Светло-фиолетовый цвет текста */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .controls label {
+            font-size: 1.1em;
+        }
+
+        .controls select {
+            padding: 8px 12px;
+            border: 2px solid #8b00ff; /* Фиолетовая рамка */
+            border-radius: 5px;
+            background-color: #1e0f2a; /* Темный фон */
+            color: #bd71ff; /* Светло-фиолетовый текст */
+            font-size: 1em;
+            cursor: pointer;
+            width: 80%; /* Ширина выпадающих списков */
+            max-width: 300px; /* Максимальная ширина */
+        }
+
+        .controls select:hover {
+            border-color: #d195ff; /* Подсветка при наведении */
+        }
+
+        #guitar {
+            display: inline-block;
+            margin-top: 20px;
+            background-color: #2c1a3d; /* Темно-фиолетовый фон для таблицы */
+            border: 2px solid #8b00ff; /* Фиолетовая рамка */
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            width: 100%; /* Ширина гитары на всю доступную ширину */
+            box-sizing: border-box;
+            padding-left: 50px; /* Отступ для первого лада */
+        }
+
+        #guitar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50px; /* Позиция линии первого лада */
+            width: 2px;
+            height: 100%;
+            background-color: #8b00ff; /* Фиолетовая линия первого лада */
+            z-index: 1;
+        }
+
+        .string {
+            display: flex;
+            position: relative;
+        }
+
+        .string::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #8b00ff; /* Фиолетовая линия струны */
+            z-index: 0;
+        }
+
+        .fret {
+            width: 40px; /* Уменьшим ширину ладов для мобильных */
+            height: 40px; /* Уменьшим высоту ладов для мобильных */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .fret::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 2px;
+            height: 100%;
+            background-color: #8b00ff; /* Фиолетовая линия лада */
+            z-index: 1;
+        }
+
+        /* Стиль для первого лада */
+        .fret.first-fret {
+            position: absolute;
+            left: -50px; /* Выносим первый лад за пределы таблицы */
+            width: 50px; /* Ширина первого лада */
+        }
+
+        .note {
+            width: 25px; /* Уменьшим размер нот для мобильных */
+            height: 25px; /* Уменьшим размер нот для мобильных */
+            border-radius: 50%;
+            border: 2px solid #8b00ff; /* Фиолетовая рамка */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #1e0f2a; /* Темный фон */
+            font-size: 12px; /* Уменьшим размер текста для мобильных */
+            cursor: pointer;
+            color: #bd71ff; /* Светло-фиолетовый текст */
+            transition: background-color 0.3s, color 0.3s; /* Плавные переходы */
+            position: relative;
+            z-index: 2; /* Ноты поверх линий */
+        }
+
+        .note:hover {
+            background-color: #8b00ff; /* Подсветка при наведении */
+            color: #1e0f2a; /* Изменение цвета текста при наведении */
+        }
+
+        .note.active {
+            background-color: #8b00ff; /* Фиолетовый фон активной ноты */
+            color: #1e0f2a; /* Темный текст активной ноты */
+            font-weight: bold; /* Жирный шрифт для активных нот */
+        }
+
+        /* Медиа-запросы для мобильных устройств */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.5em; /* Еще меньше размер заголовка */
+            }
+
+            .controls select {
+                width: 90%; /* Ширина выпадающих списков на всю ширину */
+            }
+
+            .fret {
+                width: 30px; /* Еще меньше ширина ладов */
+                height: 30px; /* Еще меньше высота ладов */
+            }
+
+            .fret.first-fret {
+                left: -40px; /* Корректируем позицию первого лада для мобильных */
+                width: 40px; /* Ширина первого лада для мобильных */
+            }
+
+            .note {
+                width: 20px; /* Еще меньше размер нот */
+                height: 20px; /* Еще меньше размер нот */
+                font-size: 10px; /* Еще меньше размер текста */
+            }
+
+            #guitar {
+                padding-left: 40px; /* Уменьшим отступ для первого лада */
+            }
+
+            #guitar::before {
+                left: 40px; /* Позиция линии первого лада */
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Схема расположения нот на гитаре</h1>
+    <div class="controls">
+        <label for="key">Тональность:</label>
+        <select id="key">
+            <option value="C">C</option>
+            <option value="C#">C#</option>
+            <option value="D">D</option>
+            <option value="D#">D#</option>
+            <option value="E">E</option>
+            <option value="F">F</option>
+            <option value="F#">F#</option>
+            <option value="G">G</option>
+            <option value="G#">G#</option>
+            <option value="A">A</option>
+            <option value="A#">A#</option>
+            <option value="B">B</option>
+        </select>
+        
+        <label for="scale">Лад:</label>
+        <select id="scale">
+            <option value="major">Мажор</option>
+            <option value="minor">Минор</option>
+        </select>
+    </div>
+    
+    <div id="guitar"></div>
+
+    <script>
+        const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+        const guitarStrings = [
+            ['E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E'],
+            ['B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'],
+            ['G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G'],
+            ['D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D'],
+            ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A'],
+            ['E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E']
+        ];
+
+        const majorScale = [0, 2, 4, 5, 7, 9, 11];
+        const minorScale = [0, 2, 3, 5, 7, 8, 10];
+
+        const guitarElement = document.getElementById('guitar');
+        const keySelect = document.getElementById('key');
+        const scaleSelect = document.getElementById('scale');
+
+        function createGuitar() {
+            guitarStrings.forEach((string, stringIndex) => {
+                const stringElement = document.createElement('div');
+                stringElement.classList.add('string');
+                
+                // Первый лад
+                const firstFret = document.createElement('div');
+                firstFret.classList.add('fret', 'first-fret');
+                
+                const firstNote = document.createElement('div');
+                firstNote.classList.add('note');
+                firstNote.textContent = string[0];
+                firstNote.dataset.note = string[0];
+                firstNote.dataset.stringIndex = stringIndex;
+                firstNote.dataset.fretIndex = 0;
+                
+                firstFret.appendChild(firstNote);
+                stringElement.appendChild(firstFret);
+                
+                // Остальные лады
+                for (let fretIndex = 1; fretIndex < string.length; fretIndex++) {
+                    const fretElement = document.createElement('div');
+                    fretElement.classList.add('fret');
+                    
+                    const noteElement = document.createElement('div');
+                    noteElement.classList.add('note');
+                    noteElement.textContent = string[fretIndex];
+                    noteElement.dataset.note = string[fretIndex];
+                    noteElement.dataset.stringIndex = stringIndex;
+                    noteElement.dataset.fretIndex = fretIndex;
+                    
+                    fretElement.appendChild(noteElement);
+                    stringElement.appendChild(fretElement);
+                }
+                
+                guitarElement.appendChild(stringElement);
+            });
+        }
+
+        function highlightNotes() {
+            const key = keySelect.value;
+            const scaleType = scaleSelect.value;
+            const scale = scaleType === 'major' ? majorScale : minorScale;
+            
+            const rootIndex = notes.indexOf(key);
+            const scaleNotes = scale.map(interval => notes[(rootIndex + interval) % 12]);
+            
+            document.querySelectorAll('.note').forEach(noteElement => {
+                if (scaleNotes.includes(noteElement.dataset.note)) {
+                    noteElement.classList.add('active');
+                } else {
+                    noteElement.classList.remove('active');
+                }
+            });
+        }
+
+        keySelect.addEventListener('change', highlightNotes);
+        scaleSelect.addEventListener('change', highlightNotes);
+
+        createGuitar();
+        highlightNotes();
+    </script>
+</body>
+</html>
